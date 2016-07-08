@@ -2,26 +2,27 @@ require 'rails_helper'
 
 RSpec.feature 'Login with Omniauth (OAuth2)' do
 
-  before do
-    OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new(
-      :provider => 'twitter',
-      :uid => '123545',
-      info: {
-        email: 'joe@bloggs.com',
-        name: 'Joe Bloggs',
-        first_name: 'Joe',
-        last_name: 'Bloggs'
-      }
-    )
-  end
+  context 'when authentication succeeds' do
+    before do
+      OmniAuth.config.mock_auth[:facebook] =
+        build :omni_auth_auth_hash
+    end
 
-  scenario 'creates and authenticates a new user' do
-    visit '/'
-    expect{
-      click_link 'Mit Facebook anmelden'
-    }.to change{
-      User.count
-    }.by 1
-  end
+    scenario 'creates a new authenticated user' do
+      visit '/'
+      expect{
+        click_link 'Mit Facebook anmelden'
+      }.to change{
+        User.count
+      }.by 1
 
+      new_user = User.last
+      expect(new_user.uid).to eq '123456'
+      expect(new_user.provider).to eq 'facebook'
+      expect(new_user.first_name).to eq 'Joe'
+      expect(new_user.last_name).to eq 'Bloggs'
+      expect(new_user.fb_path).to eq 'jbloggs'
+    end
+
+  end
 end
