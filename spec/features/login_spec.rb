@@ -19,8 +19,7 @@ RSpec.feature 'Login with Omniauth (OAuth2)' do
       new_user = User.last
       expect(new_user.uid).to eq '123456'
       expect(new_user.provider).to eq 'facebook'
-      expect(new_user.first_name).to eq 'Joe'
-      expect(new_user.last_name).to eq 'Bloggs'
+      expect(new_user.name).to eq 'Joe Bloggs'
       expect(new_user.fb_path).to eq 'jbloggs'
     end
 
