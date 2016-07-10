@@ -6,7 +6,6 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-OmniAuth.config.logger = Rails.logger
 
 module DinnerklubNotifier
   class Application < Rails::Application

@@ -6,3 +6,5 @@ Rails.application.config.middleware.use OmniAuth::Builder do
     provider :developer
   end
 end
+
+OmniAuth.config.logger = Rails.logger
